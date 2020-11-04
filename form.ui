@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1009</width>
+    <height>701</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1009</width>
+    <height>701</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1009</width>
+    <height>701</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Trees vizualizator</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGraphicsView" name="visualizator">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>701</width>
+      <height>681</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="Line" name="horline">
+    <property name="geometry">
+     <rect>
+      <x>717</x>
+      <y>10</y>
+      <width>16</width>
+      <height>681</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>30</y>
+      <width>261</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <item>
+     <property name="text">
+      <string>Binary search tree</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>AVL tree</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Red-black tree</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>2-3 tree</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Random binary search tree</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Min-heap</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="treetype_lbl">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>10</y>
+      <width>241</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Tree Type:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QSlider" name="scale_slider">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>673</y>
+      <width>190</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="value">
+     <number>50</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="scaleminus_pic_lbl">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>664</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PIC</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="scaleplus_pic_lbl">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>664</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PIC</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="addnrndbut">
+    <property name="geometry">
+     <rect>
+      <x>736</x>
+      <y>70</y>
+      <width>268</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add N random vertexes</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="delnrndbut">
+    <property name="geometry">
+     <rect>
+      <x>736</x>
+      <y>100</y>
+      <width>268</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Remove N random vertexes</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line1">
+    <property name="geometry">
+     <rect>
+      <x>742</x>
+      <y>56</y>
+      <width>256</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line2">
+    <property name="geometry">
+     <rect>
+      <x>742</x>
+      <y>126</y>
+      <width>256</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QScrollArea" name="vertlist">
+    <property name="geometry">
+     <rect>
+      <x>742</x>
+      <y>148</y>
+      <width>256</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>254</width>
+       <height>229</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="Line" name="line3">
+    <property name="geometry">
+     <rect>
+      <x>742</x>
+      <y>383</y>
+      <width>256</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="addvtx_text_lbl">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>401</y>
+      <width>241</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add vertex</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="addvtxfield">
+    <property name="geometry">
+     <rect>
+      <x>742</x>
+      <y>430</y>
+      <width>113</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="addvtxbut">
+    <property name="geometry">
+     <rect>
+      <x>871</x>
+      <y>426</y>
+      <width>131</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="remvtxbut">
+    <property name="geometry">
+     <rect>
+      <x>871</x>
+      <y>503</y>
+      <width>131</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Remove</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="remvtxfield">
+    <property name="geometry">
+     <rect>
+      <x>742</x>
+      <y>507</y>
+      <width>113</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="remvtx_text_lbl">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>478</y>
+      <width>241</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Remove vertex</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="Line" name="line4">
+    <property name="geometry">
+     <rect>
+      <x>742</x>
+      <y>458</y>
+      <width>256</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line5">
+    <property name="geometry">
+     <rect>
+      <x>742</x>
+      <y>531</y>
+      <width>256</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="stats_lbl">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>550</y>
+      <width>241</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Tree stats</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="nofv_lbl">
+    <property name="geometry">
+     <rect>
+      <x>743</x>
+      <y>580</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>N. of vertexes:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="height_lbl">
+    <property name="geometry">
+     <rect>
+      <x>743</x>
+      <y>605</y>
+      <width>51</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Height:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="blncon_lbl">
+    <property name="geometry">
+     <rect>
+      <x>743</x>
+      <y>630</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Balanced on:</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line6">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>650</y>
+      <width>256</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="minel_lbl">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>580</y>
+      <width>58</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Min el-t:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="maxel_lbl">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>605</y>
+      <width>58</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Max el-t:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="medellbl">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>630</y>
+      <width>58</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Med el-t:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="nofvtx_val">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>580</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>10000</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="height_val">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>605</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>10000</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="balancedon_val">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>630</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>false</underline>
+     </font>
+    </property>
+    <property name="text">
+     <string>10000</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="minel_val">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>580</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>10000</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="macel_val">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>605</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>10000</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="medel_val">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>630</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>10000</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
