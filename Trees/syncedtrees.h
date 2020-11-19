@@ -41,7 +41,4 @@ private:
     double _measure(int, Tree*, bool);
 };
 
-
-
-
 #endif //TREES_SYNCEDTREES_H
