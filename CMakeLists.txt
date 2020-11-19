@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
+#set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
+set(CMAKE_OSX_SYSROOT
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk")
 project(Trees)
 
 set(CMAKE_AUTOMOC ON)

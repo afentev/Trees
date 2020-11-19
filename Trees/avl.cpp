@@ -83,6 +83,7 @@ void AVL::_remove(int x, AVL*& cur) {
             }
             cur->elem = copy->elem;
             _remove(copy->elem, cur->right);
+            balance_func(cur);
         } else if (cur->left != nullptr) {
             AVL* copy = cur->left;
             while (copy->right != nullptr) {
@@ -90,11 +91,60 @@ void AVL::_remove(int x, AVL*& cur) {
             }
             cur->elem = copy->elem;
             _remove(copy->elem, cur->left);
+            balance_func(cur);
         }
     } else if (x < cur->elem) {
         _remove(x, cur->left);
+        balance_func(cur);
     } else if (x > cur->elem) {
         _remove(x, cur->right);
+        balance_func(cur);
+    }
+}
+
+void AVL::balance_func(AVL*& tree) {
+    int tb;
+    if (tree->right == nullptr && tree->left == nullptr) {
+        tb = 0;
+    } else if (tree->left == nullptr) {
+        tb = tree->right->height();
+    } else if (tree->right == nullptr) {
+        tb = -tree->left->height();
+    } else {
+        tb = tree->right->height() - tree->left->height();
+    }
+
+    if (tb == 2) {
+        int ttb;
+        if (tree->right->right == nullptr && tree->right->left == nullptr) {
+            ttb = 0;
+        } else if (tree->right->right == nullptr) {
+            ttb = -tree->right->left->height();
+        } else if (tree->right->left == nullptr) {
+            ttb = tree->right->right->height();
+        } else {
+            ttb = tree->right->right->height() - tree->right->left->height();
+        }
+        if (ttb < 0) {
+            SRR(tree->right);
+        }
+        SLR(tree);
+    }
+    if (tb == -2) {
+        int ttb;
+        if (tree->left->right == nullptr && tree->left->left == nullptr) {
+            ttb = 0;
+        } else if (tree->left->right == nullptr) {
+            ttb = -tree->left->left->height();
+        } else if (tree->left->left == nullptr) {
+            ttb = tree->left->right->height();
+        } else {
+            ttb = tree->left->right->height() - tree->left->left->height();
+        }
+        if (ttb > 0) {
+            SLR(tree->left);
+        }
+        SRR(tree);
     }
 }
 

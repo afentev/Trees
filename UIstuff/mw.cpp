@@ -9,13 +9,14 @@
 #include <unordered_set>
 #include <queue>
 #include <random>
+#include <QtWidgets/QGraphicsProxyWidget>
 
 void Ui_MainWindow::setupUi(QMainWindow* MainWindow) {
     if (MainWindow->objectName().isEmpty())
         MainWindow->setObjectName(QString::fromStdString("MainWindow"));
-    MainWindow->resize(1009, 701);
-    MainWindow->setMinimumSize(QSize(1009, 701));
-    MainWindow->setMaximumSize(QSize(1009, 701));
+    MainWindow->resize(1019, 701);
+    MainWindow->setMinimumSize(QSize(1019, 701));
+    MainWindow->setMaximumSize(QSize(1019, 701));
     centralwidget = new QWidget(MainWindow);
     centralwidget->setObjectName(QString::fromStdString("centralwidget"));
 
@@ -130,13 +131,13 @@ void Ui_MainWindow::setupUi(QMainWindow* MainWindow) {
     line6->setFrameShadow(QFrame::Sunken);
     minel_lbl = new QLabel(centralwidget);
     minel_lbl->setObjectName(QString::fromStdString("minel_lbl"));
-    minel_lbl->setGeometry(QRect(890, 580, 58, 16));
+    minel_lbl->setGeometry(QRect(880, 580, 58, 16));
     maxel_lbl = new QLabel(centralwidget);
     maxel_lbl->setObjectName(QString::fromStdString("maxel_lbl"));
-    maxel_lbl->setGeometry(QRect(890, 605, 58, 16));
+    maxel_lbl->setGeometry(QRect(880, 605, 58, 16));
     medellbl = new QLabel(centralwidget);
     medellbl->setObjectName(QString::fromStdString("medellbl"));
-    medellbl->setGeometry(QRect(890, 630, 58, 16));
+    medellbl->setGeometry(QRect(880, 630, 58, 16));
     nofvtx_val = new QLabel(centralwidget);
     nofvtx_val->setObjectName(QString::fromStdString("nofvtx_val"));
     nofvtx_val->setGeometry(QRect(840, 580, 41, 16));
@@ -160,15 +161,15 @@ void Ui_MainWindow::setupUi(QMainWindow* MainWindow) {
     balancedon_val->setFont(font1);
     minel_val = new QLabel(centralwidget);
     minel_val->setObjectName(QString::fromStdString("minel_val"));
-    minel_val->setGeometry(QRect(950, 580, 41, 16));
+    minel_val->setGeometry(QRect(940, 580, 71, 16));
     minel_val->setFont(font);
     macel_val = new QLabel(centralwidget);
     macel_val->setObjectName(QString::fromStdString("macel_val"));
-    macel_val->setGeometry(QRect(950, 605, 41, 16));
+    macel_val->setGeometry(QRect(940, 605, 71, 16));
     macel_val->setFont(font);
     medel_val = new QLabel(centralwidget);
     medel_val->setObjectName(QString::fromStdString("medel_val"));
-    medel_val->setGeometry(QRect(950, 630, 41, 16));
+    medel_val->setGeometry(QRect(940, 630, 71, 16));
     medel_val->setFont(font);
     MainWindow->setCentralWidget(centralwidget);
 
@@ -259,7 +260,13 @@ void Ui_MainWindow::addHandler() {
     }
     int number = std::stoi(text);
     for (int i = 0; i < number; ++i) {
-        t->insert(rand() % 1000000000 + 1, reinterpret_cast<Tree *&>(t));
+        int elem = rand() % 1000000000;
+        if ((rand() % 2) == 0) {
+            elem *= -1;
+        }
+        t->insert(elem, reinterpret_cast<Tree *&>(t));
+        birds[elem] = (rand() % 10) < 5;
+
     }
     draw_tree(t, -65, 25);
     x->deleteLater();
@@ -283,6 +290,7 @@ void Ui_MainWindow::addvtxbutHandler() {
     }
     int n = std::stoi(text);
     t->insert(n, reinterpret_cast<Tree *&>(t));
+    birds[n] = (rand() % 10) < 5;
     draw_tree(t, -65, 25);
     addvtxfield->setText("");
 }
@@ -294,6 +302,7 @@ void Ui_MainWindow::remvtxbutHandler() {
     }
     int n = std::stoi(text);
     t->remove(n, reinterpret_cast<Tree *&>(t));
+    birds.erase(birds.find(n));
     draw_tree(t, -65, 25);
     remvtxfield->setText("");
 }
@@ -392,35 +401,36 @@ int Ui_MainWindow::drawer(Tree* tt, int y, bool first) {
     }
     if (t->name == 3) {
         if (first) {
-            if (!dynamic_cast<SyncedTrees*>(tt)->rbt_tree->inited) {
+            if (!dynamic_cast<SyncedTrees*>(tt)->rbt_tree->is_valid()) {
                 return xcords;
             }
-        } else if (!reinterpret_cast<RBT*>(tt)->inited) {
+        } else if (!reinterpret_cast<RBTree*>(tt)->is_valid()) {
             return xcords;
         }
     }
     int mem = -1;
     int dy;
     if (tt->getLeft() != nullptr) {
-        dy = y + 200;
-        mem = drawer(tt->getLeft(), dy, false);
+        if (tt->getLeft()->getElem() != 1.1e9) {
+            dy = y + 200;
+            mem = drawer(tt->getLeft(), dy, false);
+        }
     }
 
     auto* item = new CustomItem;
     item->setRect(10, 10, 100, 48);
-    item->setFlags(QGraphicsItem::ItemIsSelectable |
-                   QGraphicsItem::ItemIsMovable);
+    item->setFlags(QGraphicsItem::ItemIsSelectable);
     int n = tt->getElem();
     item->n = n;
     item->parent = this;
     if (rbt) {
-        RBT* w;
+        RBTree* w;
         if (first) {
             w = reinterpret_cast<SyncedTrees*>(tt)->rbt_tree;
         } else {
-            w = reinterpret_cast<RBT*>(tt);
+            w = reinterpret_cast<RBTree*>(tt);
         }
-        if (!w->color) {
+        if (w->getRoot()->color) {
             item->setBrush(QBrush(QColor::fromRgb(255, 0, 0, 180)));
             item->setPen(QPen(QColor::fromRgb(255, 0, 0, 180)));
         }
@@ -451,9 +461,9 @@ int Ui_MainWindow::drawer(Tree* tt, int y, bool first) {
 
     if (mem != -1 && tt->getLeft() != nullptr) {
         if (rbt) {
-            RBT* w = reinterpret_cast<RBT*>(tt);
+            auto* w = reinterpret_cast<RBTree*>(tt);
             if (w->getLeft() != nullptr) {
-                if (dynamic_cast<RBT*>(w->getLeft())->inited) {
+                if (dynamic_cast<RBTree*>(w->getLeft())->is_valid()) {
                     scene->addLine(ret1 * 90 + 57, y + 58,
                                    mem * 90 + 57, dy + 10);
                 }
@@ -461,28 +471,48 @@ int Ui_MainWindow::drawer(Tree* tt, int y, bool first) {
         } else {
             scene->addLine(ret1 * 90 + 57, y + 58,
                            mem * 90 + 57, dy + 10);
+
+            if (birds[tt->getLeft()->getElem()]) {
+                QPixmap pixmap("/Users/user/Documents/RoseBird.png");
+                pixmap = pixmap.scaled(70, 70, Qt::KeepAspectRatio,
+                                       Qt::SmoothTransformation);
+
+                auto* lbl = scene->addPixmap(pixmap);
+                lbl->setPos((ret1 * 90 + 57 + mem * 90 + 57) / 2 - 50, (y + 58 + dy + 10) / 2 - 50);
+            }
         }
     }
 
     if (tt->getRight() != nullptr) {
-        if (rbt) {
-            RBT* w = reinterpret_cast<RBT *>(tt);
-            if (w->getRight() != nullptr) {
-                if (dynamic_cast<RBT*>(w->getRight())->inited) {
-                    dy = y + 200;
-                    mem = drawer(tt->getRight(), dy, false);
-                    if (mem != -1) {
-                        scene->addLine(ret1 * 90 + 57, y + 58,
-                                       mem * 90 + 64, dy + 10);
+        if (tt->getRight()->getElem() != 1.1e9) {
+            if (rbt) {
+                RBTree* w = reinterpret_cast<RBTree *>(tt);
+                if (w->getRight() != nullptr) {
+                    if (dynamic_cast<RBTree*>(w->getRight())->is_valid()) {
+                        dy = y + 200;
+                        mem = drawer(tt->getRight(), dy, false);
+                        if (mem != -1) {
+                            scene->addLine(ret1 * 90 + 57, y + 58,
+                                           mem * 90 + 64, dy + 10);
+                        }
                     }
                 }
-            }
-        } else {
-            dy = y + 200;
-            mem = drawer(tt->getRight(), dy, false);
-            if (mem != -1) {
-                scene->addLine(ret1 * 90 + 57, y + 58,
-                               mem * 90 + 64, dy + 10);
+            } else {
+                dy = y + 200;
+                mem = drawer(tt->getRight(), dy, false);
+                if (mem != -1) {
+                    scene->addLine(ret1 * 90 + 57, y + 58,
+                                   mem * 90 + 64, dy + 10);
+
+                    if (birds[tt->getRight()->getElem()]) {
+                        auto lbl = scene->addPixmap(QPixmap("/Users/user/Documents/"
+                                                            "BlueBird.png").scaled(
+                                50, 50,
+                                Qt::KeepAspectRatio,
+                                Qt::SmoothTransformation));
+                        lbl->setPos((ret1 * 90 + 57 + mem * 90 + 57) / 2, (y + 58 + dy + 10) / 2 - 30);
+                    }
+                }
             }
         }
     }
@@ -646,6 +676,7 @@ std::string Ui_MainWindow::conv(long double arg) {
 
 void Ui_MainWindow::remallHandler() {
     while (tot_vertexes--) {
+        birds.erase(birds.find(t->getElem()));
         t->remove(t->getElem(), reinterpret_cast<Tree *&>(t));
     }
     t = nullptr;
@@ -668,9 +699,11 @@ void Ui_MainWindow::remrndHandler() {
     Tree* w = t;
     do {
         if (w != nullptr) {
-            vxes.insert(w->getElem());
-            q.push(w->getLeft());
-            q.push(w->getRight());
+            if (w->getElem() != 1.1e9) {
+                vxes.insert(w->getElem());
+                q.push(w->getLeft());
+                q.push(w->getRight());
+            }
         }
         w = q.front(); q.pop();
     } while (!q.empty());
@@ -682,6 +715,7 @@ void Ui_MainWindow::remrndHandler() {
                  std::default_random_engine(std::chrono::system_clock::now().time_since_epoch().count()));
 
     for (int i = 0; i < nm; ++i) {
+        birds.erase(birds.find(tmp[i]));
         t->remove(tmp[i], reinterpret_cast<Tree *&>(t));
     }
     tmp.clear();
@@ -735,20 +769,6 @@ void CustomItem::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     }
 }
 
-void CustomItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
-    if (event->modifiers() == Qt::AltModifier && _isResizing){
-        QPointF pos = event->scenePos();
-        double dist = sqrt(pow(_center.x()-pos.x(),
-                               2) + pow(_center.y() - pos.y(), 2));
-        setRect(_center.x()-this->pos().x() - dist, _center.y() - this->pos().y() - dist,
-                dist * 2, dist * 2);
-    } else if (event->modifiers() != Qt::AltModifier) {
-        qDebug() << "Custom item moved.";
-        QGraphicsItem::mouseMoveEvent(event);
-        qDebug()<<"moved"<<pos();
-    }
-}
-
 void CustomItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
     if (event->modifiers() == Qt::AltModifier && _isResizing) {
         _isResizing = false;
@@ -794,10 +814,8 @@ void CustomScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
     QGraphicsScene::mouseMoveEvent(event);
 
     if (is_moving) {
-        qDebug() << "moving";
         int dx = event->screenPos().x() - base.first;
         int dy = event->screenPos().y() - base.second;
-        qDebug() << base.first;
         int i = 0;
         for (auto obj: items()) {
             obj->setPos(cords[i].first + dx, cords[i].second + dy);
@@ -880,6 +898,7 @@ void ThirdWindow::connect(int arg, Ui_MainWindow* p) {
 
 void ThirdWindow::remHandler() {
     parent->t->remove(n, reinterpret_cast<Tree *&>(parent->t));
+    parent->birds.erase(parent->birds.find(n));
     parent->draw_tree(parent->t);
     deleteLater();
 }
@@ -896,7 +915,10 @@ void ThirdWindow::updHandler() {
         parent->t = new SyncedTrees;
         parent->t->init();
     }
-    parent->t->insert(std::stoi(text), reinterpret_cast<Tree *&>(parent->t));
+    int elem = std::stoi(text);
+    parent->t->insert(elem, reinterpret_cast<Tree *&>(parent->t));
+    parent->birds[elem] = parent->birds[n];
+    parent->birds.erase(parent->birds.find(n));
     parent->draw_tree(parent->t);
     deleteLater();
 }
@@ -913,7 +935,10 @@ void ClickableLabelUpd::mousePressEvent(QMouseEvent*) {
         parent->t = new SyncedTrees;
         parent->t->init();
     }
-    parent->t->insert(std::stoi(text), reinterpret_cast<Tree *&>(parent->t));
+    int nelem = std::stoi(text);
+    parent->t->insert(nelem, reinterpret_cast<Tree *&>(parent->t));
+    parent->birds[nelem] = parent->birds[elem];
+    parent->birds.erase(parent->birds.find(elem));
     parent->ignore = this;
     parent->deleting = true;
     parent->draw_tree(parent->t);
@@ -941,6 +966,7 @@ void ClickableLabelUpd::leaveEvent(QEvent*) {
 
 void ClickableLabelRem::mousePressEvent(QMouseEvent* event) {
     parent->t->remove(elem, reinterpret_cast<Tree *&>(parent->t));
+    parent->birds.erase(parent->birds.find(elem));
     parent->ignore = this;
     parent->deleting = true;
     parent->draw_tree(parent->t);

@@ -37,8 +37,10 @@ private:
     static int rightV(AVL*, int);
     void _insert(int, AVL*&);
     void _remove(int, AVL*&);
+    static void balance_func(AVL*&);
     int elem{};
     int balance{};
+    int balance_ = 0;
     bool inited = false;
 };
 

@@ -21,8 +21,8 @@ SyncedTrees::~SyncedTrees() {
     }
     delete avl_tree;
 
-    while (rbt_tree != nullptr && rbt_tree->inited) {
-        rbt_tree->remove(rbt_tree->elem, reinterpret_cast<Tree *&>(rbt_tree));
+    while (rbt_tree != nullptr && rbt_tree->is_valid()) {
+        rbt_tree->remove(rbt_tree->getRoot()->data, reinterpret_cast<Tree *&>(rbt_tree));
     }
     delete rbt_tree;
 
@@ -74,11 +74,11 @@ int SyncedTrees::getElem() {
     } else if (name == 1) {
         return avl_tree->getElem();
     } else if (name == 3) {
-        return rbt_tree->elem;
+        return rbt_tree->getElem();
     } else if (name == 2) {
         return rbst_tree->elem;
     } else if (name == 3) {
-        return rbt_tree->elem;
+        return rbt_tree->getElem();
     }
 }
 
@@ -106,29 +106,6 @@ Tree* SyncedTrees::getLeft() {
     }
 }
 
-int SyncedTrees::rightLength() {
-    if (name == 0) {
-        return bst_tree->rightLength();
-    } else if (name == 1) {
-        return avl_tree->rightLength();
-    } else if (name == 2) {
-        return rbst_tree->rightLength();
-    } else if (name == 3) {
-        return rbt_tree->rightLength();
-    }
-}
-
-int SyncedTrees::leftLength() {
-    if (name == 0) {
-        return bst_tree->leftLength();
-    } else if (name == 1) {
-        return avl_tree->leftLength();
-    } else if (name == 2) {
-        return rbst_tree->leftLength();
-    } else if (name == 3) {
-        return rbt_tree->leftLength();
-    }
-}
 
 int SyncedTrees::width() {
     if (name == 0) {
@@ -172,7 +149,7 @@ Tree *SyncedTrees::getActive() {
 void SyncedTrees::init() {
     bst_tree = new BST;
     avl_tree = new AVL;
-    rbt_tree = new RBT;
+    rbt_tree = new RBTree;
     rbst_tree = new RBST;
     name = 1;
 }
@@ -185,17 +162,41 @@ double SyncedTrees::_measure(int diver, Tree* tree, bool first) {
     if (tree == nullptr) {
         return 0;
     } else if (first) {
-        if (name == 3 && !dynamic_cast<SyncedTrees*>(tree)->rbt_tree->inited) {
+        if (name == 3 && !dynamic_cast<SyncedTrees*>(tree)->rbt_tree->is_valid()) {
             return 0;
         }
         if (dynamic_cast<SyncedTrees*>(tree)->bst_tree == nullptr) {
             return 0;
         }
     } else {
-        if (name == 3 && !reinterpret_cast<RBT*>(tree)->inited) {
+        if (name == 3 && !reinterpret_cast<RBTree*>(tree)->is_valid()) {
             return 0;
         }
     }
     return (tree->height() + _measure(1, tree->getLeft(), false) +
         _measure(1, tree->getRight(), false) - 1) / static_cast<double>(diver);
+}
+
+int SyncedTrees::leftLength() {
+    if (name == 0) {
+        return bst_tree->leftLength();
+    } else if (name == 1) {
+        return avl_tree->leftLength();
+    } else if (name == 2) {
+        return rbst_tree->leftLength();
+    } else if (name == 3) {
+        return rbt_tree->leftLength();
+    }
+}
+
+int SyncedTrees::rightLength() {
+    if (name == 0) {
+        return bst_tree->rightLength();
+    } else if (name == 1) {
+        return avl_tree->rightLength();
+    } else if (name == 2) {
+        return rbst_tree->rightLength();
+    } else if (name == 3) {
+        return rbt_tree->rightLength();
+    }
 }

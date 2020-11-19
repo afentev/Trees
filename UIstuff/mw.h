@@ -41,11 +41,13 @@
 #include "../Trees/syncedtrees.h"
 
 #include <iostream>
+#include <unordered_map>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_MainWindow;
 class SecondWindow;
+class ThirdWindow;
 class CustomScene;
 
 class SecondWindow: public QWidget {
@@ -117,6 +119,7 @@ public:
     long double prev = 1.0;
     QObject* ignore = nullptr;
     bool deleting = false;
+    std::unordered_map<int, bool> birds;
 
 private:
     int drawer(Tree*, int y = 0, bool first = true);
@@ -156,7 +159,7 @@ public:
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+//    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
     int type() const override;
 

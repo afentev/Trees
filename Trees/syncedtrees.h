@@ -30,7 +30,7 @@ public:
     void init();
     int name;
 
-    RBT* rbt_tree;
+    RBTree* rbt_tree;
     BST* bst_tree;
 private:
     AVL* avl_tree;
@@ -40,6 +40,8 @@ private:
     bool inited = false;
     double _measure(int, Tree*, bool);
 };
+
+
 
 
 #endif //TREES_SYNCEDTREES_H
