@@ -475,3 +475,11 @@ bool RBTree::is_valid(RBTree* t) {
     return t->root != t->TNULL;
 }
 
+double RBTree::measure(int diver, Tree* tree) {
+    if (tree == nullptr) {
+        return 0;
+    }
+    return (tree->height() + RBTree::measure(1, tree->getLeft()) +
+            RBTree::measure(1, tree->getRight()) - 1) / static_cast<double>(diver);
+}
+

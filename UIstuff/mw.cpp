@@ -9,6 +9,7 @@
 #include <unordered_set>
 #include <queue>
 #include <random>
+#include <cmath>
 #include <QtWidgets/QGraphicsProxyWidget>
 
 void Ui_MainWindow::setupUi(QMainWindow* MainWindow) {
@@ -144,7 +145,7 @@ void Ui_MainWindow::setupUi(QMainWindow* MainWindow) {
     QFont font;
     font.setPointSize(11);
     font.setBold(true);
-    font.setWeight(75);
+    font.setWeight(QFont::Thin);
     nofvtx_val->setFont(font);
     height_val = new QLabel(centralwidget);
     height_val->setObjectName(QString::fromStdString("height_val"));
@@ -157,7 +158,7 @@ void Ui_MainWindow::setupUi(QMainWindow* MainWindow) {
     font1.setPointSize(11);
     font1.setBold(true);
     font1.setUnderline(false);
-    font1.setWeight(75);
+    font1.setWeight(QFont::Thin);
     balancedon_val->setFont(font1);
     minel_val = new QLabel(centralwidget);
     minel_val->setObjectName(QString::fromStdString("minel_val"));
@@ -184,7 +185,7 @@ void Ui_MainWindow::setupUi(QMainWindow* MainWindow) {
     QObject::connect(comboBox, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(comboxHandler()));
 
-    auto* val = new QRegExpValidator(QRegExp("0|-?[123456789]\\d{1,8}"));
+    auto* val = new QRegularExpressionValidator(QRegularExpression("0|-?[123456789]\\d{1,8}"));
     addvtxfield->setValidator(val);
     remvtxfield->setValidator(val);
 
@@ -546,7 +547,7 @@ void Ui_MainWindow::updateScrollArea(const QString& y) {
     wdg->setLayout(layout);
 
     le->setText(y);
-    auto* val = new QRegExpValidator(QRegExp("0|-?[123456789]\\d{1,8}"));
+    auto* val = new QRegularExpressionValidator(QRegularExpression("0|-?[123456789]\\d{1,8}"));
     le->setValidator(val);
     nn->setText(QString::fromStdString(std::to_string(++tot_vertexes) + '.'));
     layout->addWidget(nn, 1);
@@ -596,7 +597,7 @@ SecondWindow::SecondWindow() {
 
     lineEdit = new QLineEdit(this);
     lineEdit->setObjectName(QString::fromStdString("lineEdit"));
-    auto* val = new QRegExpValidator(QRegExp("[123456789]\\d+"));
+    auto* val = new QRegularExpressionValidator(QRegularExpression("[123456789]\\d+"));
     lineEdit->setValidator(val);
 
     gridLayout->addWidget(lineEdit, 0, 1, 1, 1);
@@ -667,8 +668,8 @@ void Ui_MainWindow::clearLayout(QLayout* layout) {
 }
 
 std::string Ui_MainWindow::conv(long double arg) {
-    long double number = std::round(100 * std::powl(2.718281828459045l,
-                                                    -std::fabs(arg - 1))) / 100;
+    long double number = std::round(100 * std::pow(2.718281828459045l,
+                                                   -std::fabs(arg - 1))) / 100;
     std::ostringstream ss;
     ss << std::fixed << std::setprecision(2) << number;
     return ss.str();
@@ -866,7 +867,7 @@ ThirdWindow::ThirdWindow() {
 
     lineEdit_2 = new QLineEdit(this);
     lineEdit_2->setObjectName(QString::fromStdString("lineEdit_2"));
-    auto* val = new QRegExpValidator(QRegExp("0|-?[123456789]\\d{1,8}"));
+    auto* val = new QRegularExpressionValidator(QRegularExpression("0|-?[123456789]\\d{1,8}"));
     lineEdit_2->setValidator(val);
 
     gridLayout->addWidget(lineEdit_2, 1, 1, 1, 1);

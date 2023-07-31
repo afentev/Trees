@@ -86,7 +86,7 @@ void BST::_traverse(BST*& cur) {
     _traverse(cur->left);
     _traverse(cur->right);
 }
-
+/*
 int BST::width_buffer(BST* cur, int level, std::__wrap_iter<std::vector<int,
                       std::allocator<int>>::pointer> mem) {
     if (cur == nullptr) {
@@ -114,7 +114,7 @@ int BST::width(BST* cur) {
     return s;
     return *std::max_element(w_helper.begin(), w_helper.end());
 }
-
+*/
 int BST::leftV(BST* tree, int arg) {
     if (tree == nullptr) {
         return std::max(0, arg);
