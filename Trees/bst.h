@@ -28,11 +28,11 @@ public:
     bool inited = false;
 private:
     void _traverse(BST*&);
-    static int width_buffer(BST*, int, std::__wrap_iter<std::vector<int, std::allocator<int>>::pointer>);
+    //static int width_buffer(BST*, int, std::__wrap_iter<std::vector<int, std::allocator<int>>::pointer>);
     void _insert(int, BST*&);
     void _remove(int, BST*&);
     void traverse();
-    static int width(BST*);
+    //static int width(BST*);
     static int leftV(BST*, int);
     static int rightV(BST*, int);
     static int _height(BST*);

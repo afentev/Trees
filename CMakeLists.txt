@@ -10,10 +10,10 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_CXX_STANDARD 20)
 
-find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
+find_package(Qt6 COMPONENTS Core5Compat Gui Widgets REQUIRED)
 
 add_executable(Trees main.cpp Trees/bst.cpp Trees/bst.h Trees/avl.cpp Trees/avl.h
                Trees/rbt.cpp Trees/rbt.h Trees/rbst.cpp Trees/rbst.h Trees/syncedtrees.cpp
                Trees/syncedtrees.h UIstuff/mw.cpp UIstuff/mw.h Trees/Tree.h)
 
-target_link_libraries(Trees Qt5::Core Qt5::Widgets)
+target_link_libraries(Trees Qt6::Core5Compat Qt6::Gui Qt6::Widgets)
